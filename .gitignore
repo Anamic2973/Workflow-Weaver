@@ -1,0 +1,10 @@
+.env
+credentials.json
+gdrive-tokens.json
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+dist/
+.DS_Store
+*.log

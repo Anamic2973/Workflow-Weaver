@@ -1,0 +1,20 @@
+services:
+  notion-mcp:
+    image: node:20-alpine
+    container_name: notion-mcp
+    environment:
+      - NOTION_TOKEN=${NOTION_TOKEN}
+    command: ["sh", "-c", "npm install -g @notionhq/notion-mcp-server && tail -f /dev/null"]
+    restart: unless-stopped
+
+  gdrive-mcp:
+    image: node:20-alpine
+    container_name: gdrive-mcp
+    environment:
+      - GOOGLE_DRIVE_OAUTH_CREDENTIALS=/creds/credentials.json
+      - GOOGLE_DRIVE_MCP_TOKEN_PATH=/creds/gdrive-tokens.json
+    volumes:
+      - ${GOOGLE_CREDENTIALS_PATH:-./credentials.json}:/creds/credentials.json:ro
+      - ./gdrive-tokens.json:/creds/gdrive-tokens.json
+    command: ["sh", "-c", "npm install -g @piotr-agier/google-drive-mcp && tail -f /dev/null"]
+    restart: unless-stopped
